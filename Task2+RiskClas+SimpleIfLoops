@@ -1,0 +1,80 @@
+def RiskGroupBasicClassifier(Age, Size, Lat, CTd, MRIh, Shap):
+
+    riskGroup = "Unknown"  # initialize to unknown
+    status = "Unknown"
+    
+    if CTd == "<10HU" or MRIh == "Homogeneous"or Shap == "Round/Smooth":
+        status = "Benign"
+    elif CTd == ">10HU" or MRIh == "Heterogeneous" or Shap == "Thick/Irregular":
+        status = "NeedsInvestigation"
+
+    # Patient aged 18-60,
+    # Low Risk： <3cm + unilateral + clear Benign
+    # Medium Risk: <3cm + Unilateral + NeedsInvestigation, or + Bilateral
+    # High Risk: >3cm + Unilateral + NeedsInvestigation, or + Bilateral
+    if Age == "18-60":
+        if Size == "<1cm" or Size == "1-3cm":
+            if Lat == "Unilateral" and status == "Benign":
+                riskGroup = "Low Risk"
+            elif Lat == "Bilateral":
+                riskGroup = "Medium Risk"
+        elif Size == ">3cm":
+            riskGroup = "High Risk"
+
+    # Patient aged <18,
+    # Low Risk： <1cm + unilateral + clear Benign
+    # Medium Risk: 1-3cm + Unilateral + clear Benign, or + Bilateral
+    # High Risk: Unilateral + NeedsInvestigation, or + Bilateral 
+    elif Age == "<18":
+        if Size == "<1cm":
+            if Lat == "Unilateral":
+                if status == "Benign":
+                    riskGroup = "Low Risk"
+                elif status == "NeedsInvestigation":
+                    riskGroup = "High Risk"
+            elif Lat == "Bilateral":
+                if status == "Benign":
+                    riskGroup = "Medium Risk"
+                elif status == "NeedsInvestigation":
+                    riskGroup = "High Risk"
+        elif Size == "1-3cm":
+            if Lat == "Unilateral":
+                if status == "Benign":
+                    riskGroup = "Medium Risk"
+                elif status == "NeedsInvestigation":
+                    riskGroup = "High Risk"
+            elif Lat == "Bilateral":
+                if status == "Benign":
+                    riskGroup = "Medium Risk"
+                elif status == "NeedsInvestigation":
+                    riskGroup = "High Risk"
+        elif Size == ">3cm":
+            riskGroup = "High Risk"
+            
+    # Patient aged >60,
+    # Medium Risk: <1cm + Unilateral + clear Benign, or + Bilateral
+    # High Risk: Unilateral + NeedsInvestigation, or + Bilateral             
+    elif Age == ">60":
+        if Size == "<1cm":
+            if Lat == "Unilateral":
+                if status == "Benign":
+                    riskGroup = "Medium Risk"
+                elif status == "NeedsInvestigation:
+                    riskGroup = "High Risk"
+            elif Lat == "Bilateral":
+                if status == "Benign":
+                    riskGroup = "Medium Risk"
+                elif status == "NeedsInvestigation":
+                    riskGroup = "High Risk"
+        elif Size == "1-3cm":
+            if Lat == "Unilateral":
+                if status == "Benign" or status == "NeedsInvestigation":
+                    riskGroup = "High Risk"
+            elif Lat == "Bilateral":
+                riskGroup = "High Risk"
+        elif Size == ">3cm":
+            riskGroup = "High Risk"
+    
+    return riskGroup
+
+    
