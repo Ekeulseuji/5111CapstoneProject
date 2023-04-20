@@ -1,0 +1,27 @@
+import pandas as pd
+
+df3 = pd.read_excel('/Users/ekeulseuji-/Downloads/Task3_MedicalHist.xlsx', sheet_name='Sheet1')
+
+df3
+
+df3Upper = df3.apply(lambda x: x.astype(str).str.upper())
+df3Upper
+
+PossibleContraindicatedPatients = []
+
+for index, row in df3Upper.iterrows():
+    if any(condition in row['Medical Conditions'] for condition in ['ASTHMA', 'ATOPIC DERMATITIS', 'URTICARIA']):
+        PossibleContraindicatedPatients.append([row['Patient ID'],'Possible Allergy-mediated Disease'])
+    elif any(condition in row['Medical Conditions'] for condition in ['ALLERGIES']):
+        PossibleContraindicatedPatients.append([row['Patient ID'],'Allergies Found, check Iodine or Gadolinium Allergy'])
+    elif 'PREGNANT' in row['Medical Conditions']:
+        PossibleContraindicatedPatients.append([row['Patient ID'],'Pregnancy Found'])
+    elif any(condition in row['Medical Conditions'] for condition in ['DIABETES', 'HYPERTENSION', 'DYSLIPIDEMIA', 'HYPOLIPIDEMIA', 'HYPERLIPIDEMIA', 'NEPHRITIC SYNDROME', 'RENAL FAILURE']):
+        PossibleContraindicatedPatients.append([row['Patient ID'],'Conditions Found, check Diabetes, Hypertension, Dyslipidemia, Kidney Disease'])
+    elif 'METALLIC IMPLANT' in row['Medical Conditions']:
+        PossibleContraindicatedPatients.append([row['Patient ID'],'Metallic Implant Found'])
+    elif any(condition in row['Medications'] for condition in ['METFORMIN', 'ASPIRIN', 'IBUPROFEN', 'NAPROXEN', 'WARFARIN', 'HEPARIN', 'RIVAROXABAN']):
+        PossibleContraindicatedPatients.append([row['Patient ID'],'Mediciations Found, Check Metformin, NSAIDs, Anticoagulants, ACE inhibitors/ARBs'])
+
+for elem in PossibleContraindicatedPatients:
+    print(elem)
