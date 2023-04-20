@@ -1,0 +1,10 @@
+for predictedRiskGroups in y_pred:
+
+  if predictedRiskGroups == 'Low Risk':
+    print("Routine monitoring required, no further test so far.")
+    
+  elif predictedRiskGroups == 'Medium Risk':
+    print("Next CT/MRI imaging test done in 6-12 months.")
+    
+  else:
+    print("Immediate imaging test is required.")
