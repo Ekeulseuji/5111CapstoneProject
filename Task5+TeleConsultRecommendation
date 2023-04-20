@@ -1,0 +1,20 @@
+urgencyScores = {'Low Risk': 1, 'Medium Risk': 2, 'High Risk': 3}
+workloadScores = {'Light': 1, 'Light-Medium': 2, 'Medium': 3,
+                  'Medium-Heavy': 4, 'Heavy': 5}
+import datetime
+
+for elem in y_pred:
+    urgencyScore = elem+1 # since y_pred is already 0,1,2
+    Workload = input() # needs input
+    workloadScore = workloadScores[Workload]
+    priorityScore = urgencyScore + workloadScore
+
+    if priorityScore <= 3:
+        teleConsultTime = datetime.datetime.now() + datetime.timedelta(hours=6)
+    elif priorityScore <= 5:
+        teleConsultTime = datetime.datetime.now() + datetime.timedelta(hours=24)
+    else:
+        teleConsultTime = datetime.datetime.now() + datetime.timedelta(hours=48)
+
+
+    print('Recommended time for tele-consultation:', teleConsultTime.strftime('%Y-%m-%d %H:%M:%S'))
